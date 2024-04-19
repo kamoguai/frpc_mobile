@@ -1,0 +1,76 @@
+import org.gradle.util.internal.VersionNumber
+
+buildscript {
+    ext {
+        //Ref : https://developer.android.com/build/releases/past-releases
+        agp_gradle = libs.versions.agp.version.get()
+        kotlin_version = "1.9.22"
+        // coroutine
+        coroutine_version = "1.6.4"
+
+        koin_version = libs.versions.koin.version.get()
+        ktorfit_version = libs.versions.ktorfit.version.get()
+        //DB : Room
+        room_version = "2.3.0"
+//        realm_version =  libs.versions.realm.get()
+        jb_compose_version = libs.versions.compose.version.get()
+
+        navigation_version = libs.versions.navigation.version.get() // 2.3.5 <-->androidx.navigation.safeargs    2.4.1<--> androidx.navigation.safeargs.kotlin
+
+        compileSdkVersion = 31
+        compileSdk = compileSdkVersion
+        targetSdkVersion = compileSdk
+        targetSdk = targetSdkVersion
+        minSdkVersion = 21
+        minSdk = minSdkVersion
+    }
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+        google()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+        maven {
+            url = uri('https://maven.pkg.jetbrains.space/public/p/compose/dev')
+        }
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:$agp_gradle"
+//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+//        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigation_version"
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
+        classpath "de.jensklingenberg.ktorfit:ktorfit-gradle-plugin:${ktorfit_version}"
+        classpath "gradle.plugin.org.golang.mobile.bind:gobindPlugin:0.2.13"//FIXME Ref : https://github.com/sridharv/gomobile-java/blob/master/misc/androidstudio/src/main/groovy/org/golang/mobile/GobindPlugin.groovy
+    }
+}
+
+//Ref : https://stackoverflow.com/questions/37555196/in-gradle-how-to-use-a-variable-for-a-plugin-version
+
+plugins {
+    id 'org.jetbrains.kotlin.android' version "${kotlin_version}" apply false
+    id "org.jetbrains.kotlin.jvm" version "${kotlin_version}" apply false
+    //apply plugin: "org.jetbrains.kotlin.jvm"
+    id "org.jetbrains.kotlin.multiplatform" version "${kotlin_version}" apply false
+    //apply plugin: "org.jetbrains.kotlin.multiplatform"
+    id "org.jetbrains.kotlin.plugin.serialization" version "${kotlin_version}" apply false
+    //apply plugin: "org.jetbrains.kotlin.plugin.serialization"
+    id "org.jetbrains.compose" version "${jb_compose_version}" apply false
+    alias(libs.plugins.i18n.skeptick.libres) apply false
+    alias(libs.plugins.buildkonfig) apply false
+}
+
+allprojects {
+    //https://www.baeldung.com/java-comparing-versions
+    println "Show  current define room version  : ${room_version}"
+    def room_version = VersionNumber.parse(room_version)
+    def target_room_version = VersionNumber.parse("2.4.0-alpha03")
+    println "Show  current define room ver  : ${room_version.minor}"
+    println "Show  target_room_version  : ${target_room_version.minor}"
+    println "Show  compareTo  : ${room_version.compareTo(target_room_version)}"
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

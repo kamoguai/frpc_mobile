@@ -1,0 +1,6 @@
+[submodule "frpc-IOS"]
+	path = frpc-IOS
+	url = git@github.com:cybernhl/frpc-IOS.git
+[submodule "frpc-Android"]
+	path = frpc-Android
+	url = git@github.com:cybernhl/frpc-Android.git
