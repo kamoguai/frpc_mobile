@@ -13,9 +13,7 @@ pluginManagement {
         maven(url = "https://jitpack.io")
         maven(url = "https://s3.amazonaws.com/repo.commonsware.com")
         maven(url = "https://maven.pkg.jetbrains.space/public/p/compose/dev")
-        maven{
-            url "https://raw.githubusercontent.com/cybernhl/maven-repository/master/"
-        }
+        maven(url = "https://raw.githubusercontent.com/cybernhl/maven-repository/master/")
     }
 }
 
@@ -27,11 +25,10 @@ dependencyResolutionManagement {
         maven(url = "https://jitpack.io")
         maven(url = "https://s3.amazonaws.com/repo.commonsware.com")
         maven(url = "https://maven.pkg.jetbrains.space/public/p/compose/dev")
-        maven{
-            url "https://raw.githubusercontent.com/cybernhl/maven-repository/master/"
-        }
+        maven(url = "https://raw.githubusercontent.com/cybernhl/maven-repository/master/")
     }
 }
+
 plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
@@ -46,3 +43,7 @@ val versionComponents = fullVersion
 val currentJdk = if (versionComponents[0] == 1) versionComponents[1] else versionComponents[0]
 
 rootProject.name = "frpc_mobile"
+include(":android")
+//include(":desktop")
+//include(":jsApp")
+include(":common")
