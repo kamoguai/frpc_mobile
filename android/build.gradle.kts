@@ -1,17 +1,16 @@
 plugins {
+    id("org.jetbrains.compose")
     id("com.android.application")
     kotlin("android")
-    id("org.jetbrains.compose")
 }
+
+group = "com.frpc"
+version = "1.0-SNAPSHOT"
+
 
 android {
     compileSdk = 34
-    namespace = "com.frpc.demo"
-    buildFeatures {
-        viewBinding = true
-        buildConfig = true
-        compose = true
-    }
+    namespace="com.frpc.demo"
     defaultConfig {
         applicationId = "com.frpc.demo"
         minSdk = 24
@@ -25,9 +24,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.android.compose.compiler.get()
     }
     buildTypes {
         getByName("release") {

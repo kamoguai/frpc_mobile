@@ -1,21 +1,26 @@
 package com.frpc.common
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.material3.Text
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import moe.tlaster.precompose.PreComposeApp
+import moe.tlaster.precompose.navigation.NavHost
+import moe.tlaster.precompose.navigation.rememberNavigator
 
 @Composable
 internal fun App() {
-    Surface {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(getPlatformName())
+    PreComposeApp {
+        MaterialTheme {
+            val navigator = rememberNavigator()
+            Router.initNavigation(navigator)
+            NavHost(
+                navigator = navigator,
+                initialRoute = ADD_SERVER.route
+            ) {
+//                SPLASH.registerRoute(this)
+                ADD_SERVER.registerRoute(this)
+                ADD_TUNNEL.registerRoute(this)
+                MAIN.registerRoute(this)
+            }
         }
     }
 }

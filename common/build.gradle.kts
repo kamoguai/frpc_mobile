@@ -2,11 +2,12 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
     id("com.android.library")
-    id("kotlinx-serialization")
+    kotlin("plugin.serialization")
+    //  id("kotlinx-serialization")
     kotlin("native.cocoapods")
 }
 
-group = "com.frpc.common"
+group = "com.frpc"
 version = "1.0-SNAPSHOT"
 val podName = "common"
 
@@ -21,14 +22,7 @@ kotlin {
             kotlinOptions.jvmTarget = "11"
         }
     }
-    jvm("desktop") {
-        compilations.all {
-            kotlinOptions.jvmTarget = "11"
-        }
-    }
-    js(IR) {
-        browser()
-    }
+
     ios()
     iosX64()
     iosArm64()
@@ -41,31 +35,44 @@ kotlin {
         ios.deploymentTarget = "14.1"
         podfile = project.file("../iosApp/Podfile")
         framework {
-            baseName = podName
+            baseName = "common"
             isStatic = true
         }
     }
-    applyDefaultHierarchyTemplate()
+
+//    jvm("desktop") {
+//        compilations.all {
+//            kotlinOptions.jvmTarget = "11"
+//        }
+//    }
+//    js(IR) {
+//        browser()
+//    }
+//    applyDefaultHierarchyTemplate()
     sourceSets {
         val commonMain by getting {
             dependencies {
-                //kotlin
-                api(libs.kotlinx.serialization)
-                api(libs.kotlinx.coroutines)
+                implementation(libs.kotlinx.coroutines)
+                implementation(libs.kotlinx.serialization)
+                implementation(libs.kotlinx.serialization.json)
 
-                //compose
                 api(compose.runtime)
                 api(compose.ui)
                 api(compose.foundation)
+                implementation(compose.components.resources)
                 api(compose.materialIconsExtended)
                 api(compose.material3)
                 api(libs.ktor.core)
                 api(libs.koin.core)
-                api(libs.koin.jb.compose)
 
-                api(libs.precompose)
-                api(libs.precompose.viewmodel)
-                api(libs.precompose.koin)
+                implementation(libs.precompose)
+                implementation(libs.precompose.molecule)
+                implementation(libs.precompose.viewmodel)
+                implementation(libs.molecule.runtime)
+
+                implementation(libs.settings)
+
+                api(libs.compose.webview.multiplatform)
             }
         }
 
@@ -87,23 +94,6 @@ kotlin {
             }
         }
 
-        val desktopMain by getting {
-            dependencies {
-                api(compose.preview)
-                api(libs.ktor.jvm)
-            }
-        }
-
-        val desktopTest by getting
-
-        val jsMain by getting {
-            dependencies {
-                api(compose.html.core)
-                api(libs.ktor.js)
-                api(libs.ktor.jsonjs)
-            }
-        }
-
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -115,9 +105,25 @@ kotlin {
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
         }
-    }
 
-    explicitApi()
+//        val desktopMain by getting {
+//            dependencies {
+//                api(compose.preview)
+//                api(libs.ktor.jvm)
+//            }
+//        }
+//
+//        val desktopTest by getting
+//
+//        val jsMain by getting {
+//            dependencies {
+//                api(compose.html.core)
+//                api(libs.ktor.js)
+//                api(libs.ktor.jsonjs)
+//            }
+//        }
+    }
+//    explicitApi()
 }
 
 android {
