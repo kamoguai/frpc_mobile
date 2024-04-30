@@ -28,6 +28,7 @@ import com.frpc.common.MAIN
 import com.frpc.common.Router
 import com.frpc.common.common.Constants
 import com.frpc.common.common.SpacerEx
+import com.frpc.common.getFrpcVersion
 
 @Composable
 public fun AddServer() {
@@ -81,7 +82,8 @@ public fun AddServer() {
         }
 
         Box(Modifier.fillMaxHeight(), contentAlignment = Alignment.BottomCenter) {
-            Text("frp kemel:${Constants.APP_VERSION}", modifier = Modifier.padding(20.dp))
+//            Text("frp kemel:${Constants.APP_VERSION}", modifier = Modifier.padding(20.dp))
+            Text("frp kemel : ${getFrpcVersion()}", modifier = Modifier.padding(20.dp))
         }
     }
 }

@@ -91,6 +91,7 @@ kotlin {
                 api(libs.androidx.lifecycle.runtime.ktx)
                 compileOnly(libs.androidx.ui.tooling.preview)
                 api(libs.ktor.jvm)
+                implementation(project(":frpc_library"))
             }
         }
 

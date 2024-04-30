@@ -20,6 +20,10 @@ public actual fun getPlatformName(): String {
     return "iOS"
 }
 
+actual fun getFrpcVersion(): String {
+    return "TODO"
+}
+
 @Composable
 private fun UIShow() {
     App()
