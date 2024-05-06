@@ -1,3 +1,8 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.PrintStream
+
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
@@ -5,6 +10,7 @@ plugins {
     kotlin("plugin.serialization")
     //  id("kotlinx-serialization")
     kotlin("native.cocoapods")
+//    id("org.jetbrains.kotlin.plugin.atomicfu")
 }
 
 group = "com.frpc"
@@ -17,6 +23,7 @@ configurations.all {
 
 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
 kotlin {
+//    targetHierarchy.default()
     androidTarget {
         compilations.all {
             kotlinOptions.jvmTarget = "11"
@@ -50,6 +57,13 @@ kotlin {
 //    }
 //    applyDefaultHierarchyTemplate()
     sourceSets {
+        all {
+            languageSettings {
+                optIn("kotlin.experimental.ExperimentalNativeApi")
+                optIn("kotlinx.cinterop.ExperimentalForeignApi")
+                optIn("kotlinx.cinterop.BetaInteropApi")
+            }
+        }
         val commonMain by getting {
             dependencies {
                 implementation(libs.kotlinx.coroutines)
@@ -73,6 +87,9 @@ kotlin {
                 implementation(libs.settings)
 
                 api(libs.compose.webview.multiplatform)
+                api("io.github.kevinnzou:compose-webview-multiplatform:1.9.4")
+//                implementation("co.touchlab:kermit:2.0.3")
+//                implementation("org.jetbrains.kotlinx:atomicfu:0.23.2")
             }
         }
 
@@ -110,7 +127,9 @@ kotlin {
 //        val desktopMain by getting {
 //            dependencies {
 //                api(compose.preview)
+//                implementation(compose.desktop.common)
 //                api(libs.ktor.jvm)
+//                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:$coroutinesVersion")
 //            }
 //        }
 //

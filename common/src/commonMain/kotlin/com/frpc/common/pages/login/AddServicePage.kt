@@ -29,6 +29,8 @@ import com.frpc.common.Router
 import com.frpc.common.common.Constants
 import com.frpc.common.common.SpacerEx
 import com.frpc.common.getFrpcVersion
+import com.multiplatform.webview.web.WebView
+import com.multiplatform.webview.web.rememberWebViewState
 
 @Composable
 public fun AddServer() {
@@ -80,9 +82,40 @@ public fun AddServer() {
         ) {
             Text("确认添加", modifier = Modifier.padding(vertical = 10.dp))
         }
+        val webViewState =
+            rememberWebViewState("https://github.com/KevinnZou/compose-webview-multiplatform")
+        webViewState.webSettings.apply {
+            isJavaScriptEnabled = true
+            customUserAgentString =
+                "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1) AppleWebKit/625.20 (KHTML, like Gecko) Version/14.3.43 Safari/625.20"
+            androidWebSettings.apply {
+                isAlgorithmicDarkeningAllowed = true
+                safeBrowsingEnabled = true
+            }
+        }
+        SpacerEx(10)
+
+        Row {
+            Box(modifier = Modifier.weight(1f)) {
+
+            }
+
+            Button(
+                onClick = {
+
+                },
+                modifier = Modifier.align(Alignment.CenterVertically),
+            ) {
+                Text("Go")
+            }
+            //compose-webview-multiplatform can run at Android 13 (WSA simulator) crash at Android 9 (Redmi Note8T)
+            WebView(//FIXME : java.lang.UnsupportedOperationException: This method is not supported by the current version of the framework and the current WebView APK
+                state = webViewState,
+                modifier = Modifier.fillMaxSize(),
+            )
+        }
 
         Box(Modifier.fillMaxHeight(), contentAlignment = Alignment.BottomCenter) {
-//            Text("frp kemel:${Constants.APP_VERSION}", modifier = Modifier.padding(20.dp))
             Text("frp kemel : ${getFrpcVersion()}", modifier = Modifier.padding(20.dp))
         }
     }
