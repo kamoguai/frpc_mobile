@@ -1,7 +1,7 @@
 [versions]
 #region Base Plugin
 agp_version = "7.4.0" # Ref : https://developer.android.com/build/releases/past-releases
-kotlin_version = "1.9.10"
+kotlin_version = "1.9.23"
 coroutines-version = "1.8.0"
 ksp = "1.9.22-1.0.18"
 #endregion
@@ -31,7 +31,7 @@ jetpack_camera_version = '1.1.0'
 activity_compose = "1.8.2"
 android-compose-compiler = "1.5.10"#https://developer.android.com/jetpack/androidx/versions/stable-channel
 compose-bom = "2024.03.00"# Ref : https://developer.android.com/jetpack/compose/bom
-compose-version = "1.6.0"
+compose-version = "1.6.1"
 #endregion
 
 #region Third party
