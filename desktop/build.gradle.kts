@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+    alias(libs.plugins.jetbrains.compose.compiler)
 }
 
 group = "com.frpc"
@@ -30,10 +31,10 @@ kotlin {
 
 compose.desktop {
     application {
-        mainClass = "MainKt"
+        mainClass = "com.frpc.desktop.MainKt"
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "common"
+            packageName = "com.frpc.desktop"
             packageVersion = "1.0.0"
         }
     }

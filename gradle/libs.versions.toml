@@ -1,18 +1,18 @@
 [versions]
 #region Base Plugin
 agp_version = "7.4.0" # Ref : https://developer.android.com/build/releases/past-releases
-kotlin_version = "1.9.23"
+kotlin_version = "2.0.0"
 coroutines-version = "1.8.0"
 ksp = "1.9.22-1.0.18"
 #endregion
 
 #region AndroidX
-android_core_ktx_version = "1.12.0"
+android_core_ktx_version = "1.13.1"
 android_activity_ktx_version = "1.8.2"
 appcompat_version = "1.6.1"
 fragment_version = "1.6.2"
 cardview_version = "1.0.0"
-material_version = "1.11.0"
+material_version = "1.12.0"
 constraintlayout_version = "2.1.4"
 lifecycle_version = "2.7.0"
 lifecycleLivedataKtx = "2.7.0"
@@ -28,10 +28,10 @@ jetpack_camera_version = '1.1.0'
 #endregion
 
 #region compose
-activity_compose = "1.8.2"
-android-compose-compiler = "1.5.10"#https://developer.android.com/jetpack/androidx/versions/stable-channel
+activity_compose = "1.9.0"
+android-compose-compiler = "1.5.14"#https://developer.android.com/jetpack/androidx/versions/stable-channel
 compose-bom = "2024.03.00"# Ref : https://developer.android.com/jetpack/compose/bom
-compose-version = "1.6.1"
+compose-version = "1.6.10"# Ref : https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-compatibility-and-versioning.html#kotlin-compatibility
 #endregion
 
 #region Third party
@@ -51,7 +51,7 @@ kotlinxSerializationJson = "1.6.2"
 #endregion
 
 #region Net
-ktor-version = "2.3.8"
+ktor-version = "2.3.11"
 ktorfit_qdsfdhvh_version = "1.0.9"
 ktorfit_version = "1.12.0"
 retrofit2 = "2.9.0"
@@ -118,7 +118,9 @@ android_library = { id = "com.android.library", version.ref = "agp_version" }
 jetbrains_kotlin_JVM = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin_version" }
 jetbrains_kotlin_android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin_version" }
 jetbrains_kotlin_Multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin_version" }
+jetbrains_compose_compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin_version" }
 jetbrains_kotlin_serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin_version" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor-version" }
 kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin_version" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-version" }

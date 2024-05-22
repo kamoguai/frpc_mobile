@@ -4,7 +4,7 @@ buildscript {
     ext {
         //Ref : https://developer.android.com/build/releases/past-releases
         agp_gradle = libs.versions.agp.version.get()
-        kotlin_version = "1.9.22"
+        kotlin_version =libs.versions.kotlin.version.get()
         // coroutine
         coroutine_version = "1.6.4"
 
@@ -59,6 +59,7 @@ plugins {
     //apply plugin: "org.jetbrains.kotlin.multiplatform"
     id "org.jetbrains.kotlin.plugin.serialization" version "${kotlin_version}" apply false
     //apply plugin: "org.jetbrains.kotlin.plugin.serialization"
+    alias(libs.plugins.jetbrains.compose.compiler) apply false//Form kotlin 2.0.0 not support  iOSArm32
     id "org.jetbrains.compose" version "${jb_compose_version}" apply false
 //    id "org.jetbrains.compose"  version libs.versions.compose.version.get() apply false
     alias(libs.plugins.i18n.skeptick.libres) apply false

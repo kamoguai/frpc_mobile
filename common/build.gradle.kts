@@ -1,12 +1,15 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.PrintStream
 
 plugins {
-    kotlin("multiplatform")
-    id("org.jetbrains.compose")
     id("com.android.library")
+    kotlin("multiplatform")
+    alias(libs.plugins.jetbrains.compose.compiler)
+    id("org.jetbrains.compose")
     kotlin("plugin.serialization")
     //  id("kotlinx-serialization")
     kotlin("native.cocoapods")
@@ -27,13 +30,24 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions.jvmTarget = "11"
+//            kotlinOptions {
+//                jvmTarget = "11"
+//            }
         }
     }
 
-    ios()
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
+    ios()//for iOSMain /Unit' is deprecated. Use applyDefaultHierarchyTemplate() instead
+    applyDefaultHierarchyTemplate()
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "common"
+            isStatic = true
+        }
+    }
 
     cocoapods {
         summary = "Some description for the Shared Module"
@@ -47,13 +61,30 @@ kotlin {
         }
     }
 
-//    jvm("desktop") {
-//        compilations.all {
-//            kotlinOptions.jvmTarget = "11"
-//        }
-//    }
+    jvm("desktop") {
+        compilations.all {
+            kotlinOptions.jvmTarget = "11"
+        }
+    }
+
 //    js(IR) {
 //        browser()
+//    }
+//    @OptIn(ExperimentalWasmDsl::class)
+//    wasmJs {
+//        moduleName = "composeApp"
+//        browser {
+//            commonWebpackConfig {
+//                outputFileName = "composeApp.js"
+//                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+//                    static = (static ?: mutableListOf()).apply {
+//                        // Serve sources to debug inside browser
+//                        add(project.projectDir.path)
+//                    }
+//                }
+//            }
+//        }
+//        binaries.executable()
 //    }
 //    applyDefaultHierarchyTemplate()
     sourceSets {
@@ -124,14 +155,14 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
         }
 
-//        val desktopMain by getting {
-//            dependencies {
-//                api(compose.preview)
-//                implementation(compose.desktop.common)
-//                api(libs.ktor.jvm)
+        val desktopMain by getting {
+            dependencies {
+                api(compose.preview)
+                implementation(compose.desktop.common)
+                api(libs.ktor.jvm)
 //                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:$coroutinesVersion")
-//            }
-//        }
+            }
+        }
 //
 //        val desktopTest by getting
 //
@@ -150,6 +181,8 @@ android {
     namespace ="com.frpc.common"
     compileSdk = 34
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+//    sourceSets["main"].res.srcDirs("src/androidMain/res")
+//    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
     defaultConfig {
         minSdk = 24
         targetSdk = 34
@@ -158,4 +191,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+//    packaging {
+//        resources {
+//            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+//        }
+//    }
 }

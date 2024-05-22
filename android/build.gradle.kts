@@ -1,16 +1,19 @@
 plugins {
-    id("org.jetbrains.compose")
     id("com.android.application")
     kotlin("android")
+    id("org.jetbrains.compose")
+    alias(libs.plugins.jetbrains.compose.compiler)
 }
 
 group = "com.frpc"
 version = "1.0-SNAPSHOT"
 
-
 android {
     compileSdk = 34
     namespace="com.frpc.demo"
+    buildFeatures {
+        compose = true
+    }
     defaultConfig {
         applicationId = "com.frpc.demo"
         minSdk = 24
@@ -30,10 +33,16 @@ android {
             isMinifyEnabled = false
         }
     }
+//    packaging {
+//        resources {
+//            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+//        }
+//    }
 }
 
 dependencies {
     implementation(project(":common"))
+//    implementation(projects.common)
     implementation(libs.androidx.activity.compose)
 }
 
