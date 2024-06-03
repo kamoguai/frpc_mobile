@@ -132,3 +132,6 @@ check-dpi.txt*
 
 # spring  output
 target
+
+# Kotlin2.0
+.kotlin/
