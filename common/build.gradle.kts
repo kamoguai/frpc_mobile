@@ -1,9 +1,4 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import org.jetbrains.kotlin.gradle.targets.js.dsl.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
-import java.io.FileNotFoundException
-import java.io.FileOutputStream
-import java.io.PrintStream
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
     id("com.android.library")
@@ -26,26 +21,44 @@ configurations.all {
 
 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
 kotlin {
-//    targetHierarchy.default()
-    androidTarget {
-        compilations.all {
-            kotlinOptions.jvmTarget = "11"
-//            kotlinOptions {
-//                jvmTarget = "11"
-//            }
-        }
-    }
-
-    ios()//for iOSMain /Unit' is deprecated. Use applyDefaultHierarchyTemplate() instead
-    applyDefaultHierarchyTemplate()
+    androidTarget()
+    jvm("desktop")
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
             baseName = "common"
-            isStatic = true
+            // isStatic = true
+        }
+        iosTarget.compilations.getByName("main") {
+            val fileName = when (iosTarget.targetName) {
+                "iosArm64" -> "ios-arm64"
+                "iosX64", "iosSimulatorArm64" -> "ios-arm64_x86_64-simulator"
+                else -> error("Unknown target ${iosTarget.targetName}")
+            }
+            val xcPath = file("${rootDir}/frpc_library_ios/frameworks/Frpclib.xcframework/$fileName/").absolutePath
+            println("${iosTarget.targetName} xcPath: $xcPath")
+
+            cinterops.create("Frpclib") {
+                defFile("src/iosMain/cinterop/frpc.def")
+                compilerOpts("-framework", "Frpclib", "-F$xcPath/") //, "-rpath", frameworksPath
+                extraOpts("-compiler-option", "-fmodules")
+            }
+
+            iosTarget.binaries.all {
+                linkerOpts("-framework", "Frpclib", "-F$xcPath/")
+            }
+        }
+    }
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    applyDefaultHierarchyTemplate {
+        common {
+            group("jvmCommon") {
+                withAndroidTarget()
+                withJvm()
+            }
         }
     }
 
@@ -61,32 +74,6 @@ kotlin {
         }
     }
 
-    jvm("desktop") {
-        compilations.all {
-            kotlinOptions.jvmTarget = "11"
-        }
-    }
-
-//    js(IR) {
-//        browser()
-//    }
-//    @OptIn(ExperimentalWasmDsl::class)
-//    wasmJs {
-//        moduleName = "composeApp"
-//        browser {
-//            commonWebpackConfig {
-//                outputFileName = "composeApp.js"
-//                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-//                    static = (static ?: mutableListOf()).apply {
-//                        // Serve sources to debug inside browser
-//                        add(project.projectDir.path)
-//                    }
-//                }
-//            }
-//        }
-//        binaries.executable()
-//    }
-//    applyDefaultHierarchyTemplate()
     sourceSets {
         all {
             languageSettings {
@@ -149,6 +136,7 @@ kotlin {
         val iosMain by getting {
             dependencies {
                 api(libs.ktor.ios)
+                // implementation(project(":frpc_library_ios"))
             }
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
@@ -163,18 +151,8 @@ kotlin {
 //                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:$coroutinesVersion")
             }
         }
-//
-//        val desktopTest by getting
-//
-//        val jsMain by getting {
-//            dependencies {
-//                api(compose.html.core)
-//                api(libs.ktor.js)
-//                api(libs.ktor.jsonjs)
-//            }
-//        }
     }
-//    explicitApi()
+    jvmToolchain(11)
 }
 
 android {
@@ -185,15 +163,14 @@ android {
 //    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
     defaultConfig {
         minSdk = 24
-        targetSdk = 34
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-//    packaging {
-//        resources {
-//            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-//        }
-//    }
+   // packaging {
+   //     resources {
+   //         excludes += "/META-INF/{AL2.0,LGPL2.1}"
+   //     }
+   // }
 }

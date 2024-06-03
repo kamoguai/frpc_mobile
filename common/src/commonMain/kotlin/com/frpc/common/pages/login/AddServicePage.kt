@@ -5,10 +5,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContent
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -38,7 +40,7 @@ public fun AddServer() {
     var serverPort by remember { mutableStateOf("") }
     var loginToken by remember { mutableStateOf("") }
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeContent),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -95,6 +97,8 @@ public fun AddServer() {
         }
         SpacerEx(10)
 
+        Text("frp kemel : ${getFrpcVersion()}", modifier = Modifier.padding(20.dp))
+
         Row {
             Box(modifier = Modifier.weight(1f)) {
 
@@ -113,10 +117,6 @@ public fun AddServer() {
                 state = webViewState,
                 modifier = Modifier.fillMaxSize(),
             )
-        }
-
-        Box(Modifier.fillMaxHeight(), contentAlignment = Alignment.BottomCenter) {
-            Text("frp kemel : ${getFrpcVersion()}", modifier = Modifier.padding(20.dp))
         }
     }
 }

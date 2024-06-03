@@ -1,2 +1,2 @@
 ${PODS_ROOT}/Target Support Files/Pods-iosApp/Pods-iosApp-resources.sh
-${PODS_ROOT}/../../common/build/compose/ios/common/compose-resources
+${PODS_ROOT}/../../common/build/compose/cocoapods/compose-resources

@@ -1,0 +1,3 @@
+language = Objective-C
+modules = Frpclib
+package = com.frpclib

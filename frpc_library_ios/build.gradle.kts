@@ -8,9 +8,6 @@ group = "com.frpc.frpc.go"
 version = "1.0.0"
 
 kotlin {
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
     applyDefaultHierarchyTemplate()
     sourceSets {
         all {
@@ -21,19 +18,29 @@ kotlin {
             }
         }
     }
-    targets.withType<KotlinNativeTarget> {
-        val frameworksPath = file("$projectDir/extFramework")
-        compilations.getByName("main") {
-            cinterops.create("riskperception") {
-                defFile("src/iosMain/cinterop/riskperception.def")
-                headers(
-                    file("${frameworksPath}/Frpclib.framework/Headers").listFiles().orEmpty()
-                )
-                compilerOpts("-framework", "RiskPerception", "-F$frameworksPath")
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64(),
+    ).forEach { iosTarget ->
+        iosTarget.compilations.getByName("main") {
+            val fileName = when (iosTarget.targetName) {
+                "iosArm64" -> "ios-arm64"
+                "iosX64", "iosSimulatorArm64" -> "ios-arm64_x86_64-simulator"
+                else -> error("Unknown target ${iosTarget.targetName}")
             }
-        }
-        binaries.all {
-            linkerOpts("-framework", "Frpclib", "-F$frameworksPath")
+            val xcPath = file("frameworks/Frpclib.xcframework/$fileName/").absolutePath
+            println("${iosTarget.targetName} xcPath: $xcPath")
+
+            cinterops.create("Frpclib") {
+                defFile("src/iosMain/cinterop/frpc.def")
+                compilerOpts("-framework", "Frpclib", "-F$xcPath/") //, "-rpath", frameworksPath
+                extraOpts("-compiler-option", "-fmodules")
+            }
+
+            iosTarget.binaries.all {
+                linkerOpts("-framework", "Frpclib", "-F$xcPath/")
+            }
         }
     }
 }
