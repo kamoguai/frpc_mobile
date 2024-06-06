@@ -10,8 +10,9 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.ComposeUIViewController
+import kotlinx.serialization.json.JsonObject
 import platform.UIKit.UIViewController
-
+import platform.UIKit.UIDevice
 public actual fun getPlatformName(): String {
     return "iOS"
 }

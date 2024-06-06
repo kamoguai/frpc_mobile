@@ -38,11 +38,11 @@ kotlin {
                 "iosX64", "iosSimulatorArm64" -> "ios-arm64_x86_64-simulator"
                 else -> error("Unknown target ${iosTarget.targetName}")
             }
-            val xcPath = file("${rootDir}/frpc_library_ios/frameworks/Frpclib.xcframework/$fileName/").absolutePath
+            val xcPath = file("${rootDir}/frpc_library/frameworks/Frpclib.xcframework/$fileName/").absolutePath
             println("${iosTarget.targetName} xcPath: $xcPath")
 
             cinterops.create("Frpclib") {
-                defFile("src/iosMain/cinterop/frpc.def")
+                defFile("${rootDir}/frpc_library/src/iosMain/cinterop/frpc.def")
                 compilerOpts("-framework", "Frpclib", "-F$xcPath/") //, "-rpath", frameworksPath
                 extraOpts("-compiler-option", "-fmodules")
             }
@@ -108,6 +108,12 @@ kotlin {
                 api("io.github.kevinnzou:compose-webview-multiplatform:1.9.4")
 //                implementation("co.touchlab:kermit:2.0.3")
 //                implementation("org.jetbrains.kotlinx:atomicfu:0.23.2")
+
+                implementation(compose.components.resources)
+                ///region 讀寫檔案
+                implementation("io.github.skolson:kmp-io:0.1.5")
+                ///endregion
+
             }
         }
 
@@ -162,7 +168,7 @@ android {
 //    sourceSets["main"].res.srcDirs("src/androidMain/res")
 //    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -22,7 +24,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.frpc.common.ADD_TUNNEL
@@ -33,12 +38,14 @@ import com.frpc.common.common.SpacerEx
 import com.frpc.common.getFrpcVersion
 import com.multiplatform.webview.web.WebView
 import com.multiplatform.webview.web.rememberWebViewState
+import com.oldguy.common.io.File
 
 @Composable
 public fun AddServer() {
     var serverAddress by remember { mutableStateOf("") }
     var serverPort by remember { mutableStateOf("") }
     var loginToken by remember { mutableStateOf("") }
+    val keyboardController = LocalSoftwareKeyboardController.current
     Column(
         modifier = Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.safeContent),
         verticalArrangement = Arrangement.Center,
@@ -48,13 +55,29 @@ public fun AddServer() {
         Text("添加服务器", color = Color.Black, fontSize = 18.sp, fontWeight = FontWeight.Bold)
         SpacerEx(40)
         OutlinedTextField(
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {keyboardController?.hide()}
+            ),
             value = serverAddress,
             onValueChange = { serverAddress = it },
             label = { Text("服务器地址") },
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 40.dp)
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 40.dp),
+
+
         )
         SpacerEx(5)
         OutlinedTextField(
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {keyboardController?.hide()}
+            ),
             value = serverPort,
             onValueChange = { serverPort = it },
             label = { Text("服务器端口号") },
@@ -62,6 +85,13 @@ public fun AddServer() {
         )
         SpacerEx(5)
         OutlinedTextField(
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = {keyboardController?.hide()}
+            ),
             value = loginToken,
             onValueChange = { loginToken = it },
             label = { Text("登录token") },
@@ -118,5 +148,16 @@ public fun AddServer() {
                 modifier = Modifier.fillMaxSize(),
             )
         }
+    }
+}
+fun fileReader(filePath:String) {
+    val directory = File(filePath)
+    val exists = directory.exists
+    val dir = directory.path
+    val isDir = directory.isDirectory
+    val full =  directory.fullPath
+    val files = directory.listFilesTree
+    for (file in files) {
+        println(file.name)
     }
 }

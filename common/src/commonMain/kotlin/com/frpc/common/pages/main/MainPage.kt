@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.frpc.common.bean.ServerInfoBean
 import com.frpc.common.bean.TunnelDataBean
 import com.frpc.common.common.SpacerEx
+import com.multiplatform.webview.web.WebContent
 
 
 @Composable
@@ -86,7 +87,6 @@ fun MainPage() {
 
             })
             SpacerEx(5)
-
         }
 
         val isEditMode = remember { mutableStateOf(false) }
