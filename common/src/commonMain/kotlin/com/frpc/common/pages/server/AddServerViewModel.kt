@@ -1,4 +1,4 @@
-package com.frpc.common.pages.login
+package com.frpc.common.pages.server
 
 import com.frpc.common.common.Configuration
 import com.frpc.common.common.LocalConfigManager
@@ -27,5 +27,4 @@ class AddServerViewModel : ViewModel() {
             callback()
         }
     }
-
 }

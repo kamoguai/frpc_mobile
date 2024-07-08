@@ -84,34 +84,35 @@ kotlin {
         }
         val commonMain by getting {
             dependencies {
-                implementation(libs.kotlinx.coroutines)
-                implementation(libs.kotlinx.serialization)
-                implementation(libs.kotlinx.serialization.json)
+                api(libs.kotlinx.coroutines)
+                api(libs.kotlinx.serialization)
+                api(libs.kotlinx.serialization.json)
 
                 api(compose.runtime)
                 api(compose.ui)
                 api(compose.foundation)
-                implementation(compose.components.resources)
+                api(compose.components.resources)
                 api(compose.materialIconsExtended)
+                api(compose.components.resources)
                 api(compose.material3)
                 api(libs.ktor.core)
                 api(libs.koin.core)
 
-                implementation(libs.precompose)
-                implementation(libs.precompose.molecule)
-                implementation(libs.precompose.viewmodel)
-                implementation(libs.molecule.runtime)
+                api(libs.precompose)
+                api(libs.precompose.molecule)
+                api(libs.precompose.viewmodel)
+                api(libs.molecule.runtime)
 
-                implementation(libs.settings)
+                api(libs.settings)
 
                 api(libs.compose.webview.multiplatform)
 //                implementation("co.touchlab:kermit:2.0.3")
 //                implementation("org.jetbrains.kotlinx:atomicfu:0.23.2")
-                implementation(libs.sonner)
+                api(libs.sonner)
 
-                implementation(compose.components.resources)
+                api(compose.components.resources)
                 ///region 讀寫檔案
-                implementation(libs.kmpio)
+                api(libs.kmpio)
                 ///endregion
 
             }

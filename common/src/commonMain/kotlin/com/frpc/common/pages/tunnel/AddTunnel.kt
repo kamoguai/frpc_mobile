@@ -1,4 +1,4 @@
-package com.frpc.common.pages.login.tunnel
+package com.frpc.common.pages.tunnel
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column

@@ -1,4 +1,4 @@
-package com.frpc.common.pages.main
+package com.frpc.common.bean
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.frpc.common.bean.ServerInfoBean
 import com.frpc.common.common.Center
 import com.frpc.common.common.SpacerEx
 import com.frpc.common.widget.MWebView

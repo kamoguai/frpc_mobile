@@ -1,4 +1,4 @@
-package com.frpc.common.pages.login
+package com.frpc.common.pages.server
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.clickable
@@ -38,8 +38,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.frpc.common.MAIN
-import com.frpc.common.Router
+import com.frpc.common.def.MAIN
+import com.frpc.common.def.Router
 import com.frpc.common.common.CommonPageContext
 import com.frpc.common.common.CommonSection
 import com.frpc.common.common.Configuration
@@ -47,12 +47,12 @@ import com.frpc.common.common.PageCtx
 import com.frpc.common.common.SpacerEx
 import com.frpc.common.common.SshSection
 import com.frpc.common.getFrpcVersion
-import com.frpc.common.pages.login.tunnel.AddTunnelPage
+import com.frpc.common.pages.tunnel.AddTunnelPage
 import com.oldguy.common.io.File
 import moe.tlaster.precompose.viewmodel.viewModel
 
 @Composable
-fun AddServer() {
+fun AddServicePage() {
     val pageCtx = CommonPageContext()
 
     var configurationData by remember {
