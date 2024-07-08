@@ -12,5 +12,4 @@ open class ComposeDialogController {
     fun showDialog() {
         dialogSwitch.value = true
     }
-
 }
