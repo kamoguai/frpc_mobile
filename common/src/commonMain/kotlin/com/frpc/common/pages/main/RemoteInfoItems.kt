@@ -6,11 +6,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -25,22 +25,29 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.frpc.common.bean.ServerInfoBean
+import com.frpc.common.common.Center
 import com.frpc.common.common.SpacerEx
+import com.frpc.common.widget.MWebView
 
 @Composable
 fun ServerInfoItem(bean: ServerInfoBean) {
-    val isSelect = remember { mutableStateOf(bean.isSelect) }
+    val isSelect = remember { bean.isSelectState }
+    val isStart = remember { bean.isStartState }
+
+
     var m = Modifier.clickable {
         bean.isSelect = !bean.isSelect
-        isSelect.value = bean.isSelect
     }
     if (isSelect.value) {
         m = m.border(5.dp, Color.Yellow)
     }
     Column {
-        Row(modifier = m) {
+        Row(
+            modifier = m,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             Column(modifier = Modifier.padding(15.dp)) {
-                val tunnelDataBean = bean.tunnelDataBean
+                val tunnelDataBean = bean.sshSection
                 Text(bean.name)
                 SpacerEx(5)
                 val type = tunnelDataBean.type
@@ -49,8 +56,16 @@ fun ServerInfoItem(bean: ServerInfoBean) {
                 Text("远端端口号:${bean.remotePort}")
             }
 
+            Center(m = Modifier.weight(1f)) {
+                if (isStart.value) {
+                    StateDot(Color.Green)
+                } else {
+                    StateDot(Color.Red)
+                }
+            }
+
             Box(
-                modifier = Modifier.weight(1f).padding(vertical = 20.dp, horizontal = 15.dp),
+                modifier = Modifier.weight(2f).padding(vertical = 20.dp, horizontal = 15.dp),
                 contentAlignment = Alignment.CenterEnd
             ) {
                 Button(
@@ -64,19 +79,22 @@ fun ServerInfoItem(bean: ServerInfoBean) {
             }
         }
 
-        if (bean.isStart) {
-            var sendValue by remember { mutableStateOf(TextFieldValue()) }
-            Row(modifier = Modifier.fillMaxWidth()) {
-                SpacerEx(15)
-                TextField(
-                    value = sendValue,
-                    onValueChange = { sendValue = it },
-                    maxLines = 5,
-                )
-                SpacerEx(15)
-                Text(bean.buildRecDataList(), modifier = Modifier.weight(1f))
-                SpacerEx(15)
+
+        if (isStart.value) {
+            SpacerEx(15)
+            if (bean.isWebUrl()) {
+                MWebView(url = bean.webUrl()!!)
+            } else {
+                Text(bean.chatData?.text ?: "")
             }
+
+            var sendValue by remember { mutableStateOf(TextFieldValue()) }
+            TextField(
+                value = sendValue,
+                onValueChange = { sendValue = it },
+                maxLines = 5,
+            )
+            SpacerEx(15)
 
             Row(modifier = Modifier.fillMaxWidth()) {
                 SpacerEx(15)
@@ -86,9 +104,16 @@ fun ServerInfoItem(bean: ServerInfoBean) {
                 SpacerEx(15)
             }
 
-            if (bean.isWebUrl()){
-                //未找到能用的webView实现，先放着
-            }
+
         }
     }
+}
+
+@Composable
+private fun StateDot(color: Color) {
+    Box(
+        modifier = Modifier
+            .size(10.dp)
+            .background(color, RoundedCornerShape(10.dp)) // 圆点颜色
+    )
 }

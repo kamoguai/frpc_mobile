@@ -2,9 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.frpc.demo">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:label="demo"
         android:allowBackup="false"
+        android:usesCleartextTraffic="true"
+        android:name=".MApplication"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity

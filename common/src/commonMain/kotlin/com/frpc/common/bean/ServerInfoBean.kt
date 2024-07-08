@@ -1,5 +1,7 @@
 package com.frpc.common.bean
 
+import androidx.compose.runtime.mutableStateOf
+import com.frpc.common.common.SshSection
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -10,15 +12,35 @@ data class ServerInfoBean(
     @SerialName("remoteAddress")
     val remoteAddress: String,
     @SerialName("remotePort")
-    val remotePort: Int,
+    val remotePort: String,
     @SerialName("tunnel")
-    val tunnelDataBean: TunnelDataBean
+    val sshSection: SshSection,
 ) {
 
-    var isStart: Boolean = false
-    var isSelect = false
+    var isSelectState = mutableStateOf(false)
 
-    var chatData : ChatData? = null
+    var isSelect: Boolean
+        set(value) {
+            isSelectState.value = value
+        }
+        get() {
+            return isSelectState.value
+        }
+
+
+    var isStartState = mutableStateOf(false)
+
+    var isStart: Boolean
+        set(value) {
+            isStartState.value = value
+        }
+        get() {
+            return isStartState.value
+        }
+
+
+
+    var chatData: ChatData? = null
 
     var chatDataList: List<ChatData>? = null
 
@@ -29,7 +51,7 @@ data class ServerInfoBean(
     }
 
     fun buildRecDataList(): String {
-        return chatData?.text ?:""
+        return chatData?.text ?: ""
 //        val sb = StringBuilder()
 //        chatDataList?.forEach {
 //
@@ -43,15 +65,8 @@ data class ServerInfoBean(
 //        return sb.toString()
     }
 
+    private fun String.isUrl(): Boolean {
+        val regex = Regex("""^(https?|ftp)://[^\s/$.?#].[^\s]*$""")
+        return regex.matches(this)
+    }
 }
-
-private fun String.isUrl(): Boolean {
-    val regex = Regex("""^(https?|ftp)://[^\s/$.?#].[^\s]*$""")
-    return regex.matches(this)
-}
-
-@Serializable
-data class ChatData(
-    val text: String,
-    val isSelf: Boolean
-)

@@ -1,6 +1,6 @@
 [versions]
 #region Base Plugin
-agp_version = "7.4.0" # Ref : https://developer.android.com/build/releases/past-releases
+agp_version = "7.4.2" # Ref : https://developer.android.com/build/releases/past-releases
 kotlin_version = "2.0.0"
 coroutines-version = "1.8.0"
 ksp = "1.9.22-1.0.18"
@@ -26,12 +26,13 @@ pagging = "3.1.1"
 jetpack_windowmanager_version = '1.0.0'
 jetpack_camera_version = '1.1.0'
 #endregion
+sonner_version = "0.3.5"
 
 #region compose
 activity_compose = "1.9.0"
 android-compose-compiler = "1.5.14"#https://developer.android.com/jetpack/androidx/versions/stable-channel
-compose-bom = "2024.03.00"# Ref : https://developer.android.com/jetpack/compose/bom
-compose-version = "1.6.10"# Ref : https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-compatibility-and-versioning.html#kotlin-compatibility
+compose-bom = "2024.06.00"# Ref : https://developer.android.com/jetpack/compose/bom
+compose-version = "1.6.11"# Ref : https://www.jetbrains.com/help/kotlin-multiplatform-dev/compose-compatibility-and-versioning.html#kotlin-compatibility
 #endregion
 
 #region Third party
@@ -103,6 +104,7 @@ datetime = "0.5.0"
 #region WebView
 composeWebview = "0.33.3"
 composeWebviewMultiplatform = "1.9.4"
+kmp_io_version="0.1.5"
 #endregion
 
 richeditorCompose = "1.0.0-rc04"
@@ -133,6 +135,7 @@ realm_kotlin = { id = "io.realm.kotlin", version.ref = "realm_kotlin_version" }
 [libraries]
 plugin-source-android = { module = "com.android.tools.build:gradle", version.ref = "agp_version" }
 plugin-source-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin_version" }
+sonner = { module = "io.github.dokar3:sonner", version.ref = "sonner_version" }
 
 #region Base
 kotlinx-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref="coroutines-version" }
@@ -288,6 +291,7 @@ skiko = { module = "org.jetbrains.skiko:skiko-awt-runtime-macos-arm64", version=
 
 settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "settings" }
 datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "datetime" }
+kmpio = { module = "io.github.skolson:kmp-io", version.ref = "kmp_io_version" }
 #endregion
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }

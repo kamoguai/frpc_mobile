@@ -58,7 +58,6 @@ val currentJdk = if (versionComponents[0] == 1) versionComponents[1] else versio
 
 rootProject.name = "frpc_mobile"
 include(":frpc_library")
-// include(":frpc_library_ios")
 include(":common")
 include(":android")
 include(":desktop")

@@ -2,7 +2,6 @@ package com.frpc.common
 
 import androidx.compose.runtime.Composable
 import com.frpc.common.pages.login.AddServer
-import com.frpc.common.pages.login.tunnel.AddTunnelPage
 import com.frpc.common.pages.main.MainPage
 import com.frpc.common.pages.splash.SplashPage
 import moe.tlaster.precompose.navigation.BackStackEntry
@@ -29,9 +28,6 @@ public val ADD_SERVER: Route = Route("addServer") {
     AddServer()
 }
 
-public val ADD_TUNNEL: Route = Route("addTunnel") {
-    AddTunnelPage()
-}
 public val MAIN: Route = Route("main") {
     MainPage()
 }

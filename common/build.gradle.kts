@@ -105,13 +105,13 @@ kotlin {
                 implementation(libs.settings)
 
                 api(libs.compose.webview.multiplatform)
-                api("io.github.kevinnzou:compose-webview-multiplatform:1.9.4")
 //                implementation("co.touchlab:kermit:2.0.3")
 //                implementation("org.jetbrains.kotlinx:atomicfu:0.23.2")
+                implementation(libs.sonner)
 
                 implementation(compose.components.resources)
                 ///region 讀寫檔案
-                implementation("io.github.skolson:kmp-io:0.1.5")
+                implementation(libs.kmpio)
                 ///endregion
 
             }
@@ -142,7 +142,6 @@ kotlin {
         val iosMain by getting {
             dependencies {
                 api(libs.ktor.ios)
-                // implementation(project(":frpc_library_ios"))
             }
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
